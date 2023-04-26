@@ -3,4 +3,107 @@
   timestamps: true
   }
 
+  const MongoClient = require('mongodb').MongoClient;
+
+// MongoDB connection string
+const uri = 'mongodb://localhost:27017/mydb';
+
+// Teams to populate the bracket
+const teams = [
+  { name: 'Team A', wins: 0 },
+  { name: 'Team B', wins: 0 },
+  { name: 'Team C', wins: 0 },
+  { name: 'Team D', wins: 0 },
+  { name: 'Team E', wins: 0 },
+  { name: 'Team F', wins: 0 },
+  { name: 'Team G', wins: 0 },
+  { name: 'Team H', wins: 0 }
+];
+
+// Function to shuffle an array randomly
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Create a shuffled list of teams
+const shuffledTeams = shuffle(teams);
+
+// Function to simulate a game between two teams
+function simulateGame(team1, team2) {
+  const winner = Math.random() < 0.5 ? team1 : team2;
+  winner.wins++;
+}
+
+// Play 3 random games for each team
+for (let i = 0; i < teams.length; i++) {
+  const team = teams[i];
+  const opponents = shuffledTeams.filter(t => t !== team).slice(0, 3);
+  for (let j = 0; j < opponents.length; j++) {
+    simulateGame(team, opponents[j]);
+  }
+}
+
+// Sort the teams by number of wins
+const sortedTeams = teams.sort((a, b) => b.wins - a.wins);
+
+// Bracket rounds
+const rounds = [
+  { name: 'Quarterfinals', matches: [] },
+  { name: 'Semifinals', matches: [] },
+  { name: 'Finals', matches: [] }
+];
+
+// Populate the bracket with the sorted teams
+for (let i = 0; i < rounds.length; i++) {
+  const round = rounds[i];
+  const numMatches = Math.pow(2, rounds.length - i - 1);
+  for (let j = 0; j < numMatches; j++) {
+    const match = {
+      teams: [
+        { name: sortedTeams[j * 2].name, score: 0, winner: false },
+        { name: sortedTeams[j * 2 + 1].name, score: 0, winner: false }
+      ],
+      winner: null,
+      nextMatch: null
+    };
+    round.matches.push(match);
+  }
+}
+
+// Link matches to their respective next matches
+for (let i = 0; i < rounds.length - 1; i++) {
+  const round = rounds[i];
+  const nextRound = rounds[i + 1];
+  for (let j = 0; j < round.matches.length; j++) {
+    const match = round.matches[j];
+    match.nextMatch = nextRound.matches[Math.floor(j / 2)];
+  }
+}
+
+  // Insert the bracket into the database
+  MongoClient.connect(uri, function(err, client) {
+    if (err) {
+      console.log(err);
+      return;
+    }
   
+    const db = client.db('mydb');
+    const collection = db.collection('brackets');
+  
+    collection.insertOne({
+      teams: sortedTeams.map(team => ({ name: team.name, wins: team.wins })),
+      rounds: rounds
+    }, function(err, result) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+  
+      console.log('Bracket created successfully.');
+      client.close();
+    });
+  });
