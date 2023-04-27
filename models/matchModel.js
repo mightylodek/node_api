@@ -17,11 +17,17 @@ var MatchSchema = new Schema(
     team1FK: {
       type: String,
     },
+    team1Name: {
+      type: String,
+    },
     team2FK: {
       type: String,
     },
+    team2Name: {
+      type: String,
+    },
     locationFK: {
-      type: MatchLocation,
+      type: String,
     },
     locationName: {
       type: String,
