@@ -26,23 +26,11 @@ var MatchSchema = new Schema(
     team1Name: {
       type: String,
     },
-    team1PlayerNames: {
-      type: [String],
-    },
-    team1PlayerIds: {
-      type: [String],
-    },
     team2FK: {
       type: String,
     },
     team2Name: {
       type: String,
-    },
-    team2PlayerNames: {
-      type: [String],
-    },
-    team2PlayerIds: {
-      type: [String],
     },
     locationFK: {
       type: String,
@@ -92,8 +80,8 @@ var MatchSchema = new Schema(
     pointDiff: {
       type: Number,
     },
-    matchStatus: {
-      type: String,
+    status: {
+      typs: String,
     }
   },
   {

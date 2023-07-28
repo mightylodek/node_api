@@ -354,6 +354,20 @@
 					"options": ""
 				},
 				{
+					"id": "ddbfe14c-b649-4ca0-aa60-8c63984f2f73",
+					"name": "bracketName",
+					"datatype": "String",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"list": false,
+					"ref": "",
+					"options": ""
+				},
+				{
 					"id": "b328a163-23f7-4601-b702-8257b4ff9b55",
 					"name": "matchNumber",
 					"datatype": "Number",
@@ -373,7 +387,7 @@
 					"datatype": "String",
 					"param": "",
 					"pk": false,
-					"nn": true,
+					"nn": false,
 					"comment": "Foreign key of the Team table",
 					"defaultvalue": "",
 					"data": "",
@@ -383,12 +397,26 @@
 					"validation": ""
 				},
 				{
+					"id": "21ade6c2-68c7-4c89-a152-2c16c990d145",
+					"name": "team1Name",
+					"datatype": "String",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"list": false,
+					"ref": "",
+					"options": ""
+				},
+				{
 					"id": "f652090a-f483-4db3-92d0-79f01a1febda",
 					"name": "team2FK",
 					"datatype": "String",
 					"param": "",
 					"pk": false,
-					"nn": true,
+					"nn": false,
 					"comment": "Foreign key of the Team Table\n",
 					"defaultvalue": "",
 					"data": "",
@@ -396,6 +424,20 @@
 					"enum": "",
 					"validate": "",
 					"validation": ""
+				},
+				{
+					"id": "d37ac349-5d3d-4d53-9540-97e5601ee725",
+					"name": "team2Name",
+					"datatype": "String",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"list": false,
+					"ref": "",
+					"options": ""
 				},
 				{
 					"id": "65cc6484-7fd0-4e7f-9f81-e392f4bb8db9",
@@ -1624,7 +1666,7 @@
 		"def_validationAction": "na",
 		"def_collation": "",
 		"def_others": "",
-		"lastSaved": "Wed Apr 26 2023 17:01:01 GMT-0500 (Central Daylight Time)"
+		"lastSaved": "Wed Apr 26 2023 17:03:29 GMT-0500 (Central Daylight Time)"
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -1664,9 +1706,9 @@
 				},
 				"a805f3e6-4338-412c-9833-a3d360c9e213": {
 					"referencedItemId": "a805f3e6-4338-412c-9833-a3d360c9e213",
-					"x": 760,
-					"y": 366,
-					"gHeight": 441,
+					"x": 740,
+					"y": 367,
+					"gHeight": 495,
 					"gWidth": 305,
 					"color": "#ffffff",
 					"background": "#03a9f4",

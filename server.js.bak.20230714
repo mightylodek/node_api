@@ -13,14 +13,11 @@ const Match = require("./models/matchModel.js");
 const Team = require("./models/teamModel.js");
 const Event = require("./models/eventModel.js");
 const OrgMember = require("./models/orgMemberModel.js");
-const KingsCupPlayer = require("./models/kingsCupPlayerModel");
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors({
+    origin: '*'
+}));
 
 /**
  * const corsOptions = {
@@ -34,19 +31,14 @@ app.use(
 app.use(express.json());
 
 app.use(function (req, res, next) {
-  const allowedOrigins = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:19006",
-    "http://localhost:19006",
-  ];
+ const allowedOrigins = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://127.0.0.1:19006', 'http://localhost:19006'];
   const origin = req.headers.origin;
-  console.log("Origin: ", origin);
+  console.log('Origin: ', origin);
   //if (allowedOrigins.includes(origin)) {
   //     res.setHeader('Access-Control-Allow-Origin', origin);
   //}
-
-  //res.setHeader("Access-Control-Allow-Origin", "http://localhost:19006");
+	
+	//res.setHeader("Access-Control-Allow-Origin", "http://localhost:19006");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
@@ -265,9 +257,11 @@ app.delete("/matches/", async (req, res) => {
       return result;
     });
     if (!match) {
-      return res.status(404).json({
-        message: `Cannot find any match with ID ${JSON.stringify(req.body)}`,
-      });
+      return res
+        .status(404)
+        .json({
+          message: `Cannot find any match with ID ${JSON.stringify(req.body)}`,
+        });
     }
     res.status(200).json(req.body);
   } catch (error) {
@@ -540,126 +534,6 @@ app.delete("/events/:id", async (req, res) => {
  * End Event Section
  */
 
-//Kings Cup Player
-// Create New
-app.post("/kcplayer", async (req, res) => {
-  try {
-    const kingsCupPlayer = await KingsCupPlayer.create(req.body);
-    res.status(200).json(kingsCupPlayer);
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: error.message });
-  }
-});
-
-//List all
-app.get("/kcplayer", async (req, res) => {
-  try {
-    const KingsCupPlayers = await KingsCupPlayer.find({});
-    res.status(200).json(KingsCupPlayers);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-//List one player
-app.get("/kcplayer/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const KingsCupPlayers = await KingsCupPlayer.findOne({ id: id });
-    res.status(200).json(KingsCupPlayers);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// PUT route to update player's wins, losses, pdiff, seed, and name by id
-app.put("/kcplayer/:id", async (req, res) => {
-  const { playerId } = req.params;
-  const { wins, losses, pdiff, seed, name } = req.body;
-
-  try {
-    const player = await KingsCupPlayer.findOne({ id: playerId });
-
-    if (!player) {
-      return res.status(404).json({ error: "Player not found" });
-    }
-
-    if (wins !== undefined) {
-      player.wins = wins;
-    }
-    if (losses !== undefined) {
-      player.losses = losses;
-    }
-    if (pdiff !== undefined) {
-      player.pdiff = pdiff;
-    }
-    if (seed !== undefined) {
-      player.seed = seed;
-    }
-    if (name !== undefined) {
-      player.name = name;
-    }
-
-    const updatedPlayer = await player.save();
-
-    return res.json(updatedPlayer);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "An error occurred" });
-  }
-});
-
-//Update Kings Cup Player PATCH
-app.patch("/kcplayer/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const kingsCupPlayer = await KingsCupPlayer.findOneAndUpdate(id, req.body);
-    if (!kingsCupPlayer) {
-      return res
-        .status(404)
-        .json({ message: `Cannot find any Players with ID ${id}` });
-    }
-    res.status(200).json(req.body);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-//Delete one Kings Cup player
-app.delete("/kcplayer/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const kingsCupPlayer = await KingsCupPlayer.findByIdAndDelete(id);
-    if (!kingsCupPlayer) {
-      return res
-        .status(404)
-        .json({ message: `Cannot find any Player with ID ${id}` });
-    }
-    res.status(200).json(req.body);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// GET route to find the maximum value of the id field
-app.get("/kcplayer/max-id", async (req, res) => {
-  try {
-    const maxIdPlayer = await KingsCupPlayer.findOne({}, { id: 1 }).sort({
-      id: -1,
-    });
-
-    if (!maxIdPlayer) {
-      return res.json({ id: "p00" });
-    }
-
-    return res.json(maxIdPlayer);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "An error occurred" });
-  }
-});
-
 //Player
 app.post("/player", async (req, res) => {
   try {
@@ -673,8 +547,8 @@ app.post("/player", async (req, res) => {
 
 https
   .createServer(
-    // Provide the private and public key to the server by reading each
-    // file's content with the readFileSync() method.
+		// Provide the private and public key to the server by reading each
+		// file's content with the readFileSync() method.
     {
       key: fs.readFileSync("../../tourneyrun.key"),
       cert: fs.readFileSync("../../tourneyrun.crt"),
