@@ -6,9 +6,10 @@ const KingsCupPlayerSchema = mongoose.Schema({
   losses: Number,
   pdiff: Number,
   seed: Number,
-  name: String
+  name: String,
+  eventName: String,
 });
 
-const KingsCupPlayer = mongoose.model("KingsCupPlayer",KingsCupPlayerSchema);
+const KingsCupPlayer = mongoose.model("KingsCupPlayer", KingsCupPlayerSchema);
 
 module.exports = KingsCupPlayer;
