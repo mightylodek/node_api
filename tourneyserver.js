@@ -204,7 +204,7 @@ app.post("/tournaments/:tournamentId/participants", async (req, res) => {
 
     res.status(201).json(newParticipantData);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create the participant" });
+    res.status(500).json({ error: "Failed to create the participant", response: `${error}`});
   }
 });
 
