@@ -199,12 +199,17 @@ app.post("/tournaments/:tournamentId/participants", async (req, res) => {
     }
 
     const newParticipantData = req.body;
-    tournament.players.set(newParticipantData.id, newParticipantData);
+    tournament.participants.set(newParticipantData.id, newParticipantData);
     await tournament.save();
 
     res.status(201).json(newParticipantData);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create the participant", response: `${error}`});
+    res
+      .status(500)
+      .json({
+        error: "Failed to create the participant",
+        response: `${error}`,
+      });
   }
 });
 
@@ -222,7 +227,7 @@ app.put(
 
       const participantId = req.params.participantId;
       const updatedParticipantData = req.body;
-      tournament.players.set(participantId, updatedParticipantData);
+      tournament.participants.set(participantId, updatedParticipantData);
       await tournament.save();
 
       res.json(updatedParticipantData);
@@ -245,7 +250,7 @@ app.delete(
       }
 
       const participantId = req.params.participantId;
-      tournament.players.delete(participantId);
+      tournament.participants.delete(participantId);
       await tournament.save();
 
       res.json({ message: "Participant deleted successfully" });
