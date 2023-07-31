@@ -8,7 +8,6 @@ const participantSchema = mongoose.Schema(
     pdiff: Number,
     seed: Number,
     name: String,
-    eventName: String,
   },
   { timestamps: true }
 ); // Add timestamps option here
