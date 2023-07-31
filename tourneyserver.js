@@ -57,7 +57,18 @@ app.use(function (req, res, next) {
 // Create a new tournament
 app.post("/tournaments", async (req, res) => {
   try {
-    const newTournament = await Tournament.create(req.body);
+    const newTournamentData = req.body;
+    // Initialize the participants field as an empty Map if not provided
+    if (!newTournamentData.participants) {
+      newTournamentData.participants = new Map();
+    }
+
+    // Initialize the matches field as an empty Map if not provided
+    if (!newTournamentData.matches) {
+      newTournamentData.matches = new Map();
+    }
+
+    const newTournament = await Tournament.create(newTournamentData);
     res.status(201).json(newTournament);
   } catch (error) {
     res.status(500).json({ error: "Failed to create the tournament" });
