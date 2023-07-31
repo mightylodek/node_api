@@ -54,26 +54,40 @@ app.use(function (req, res, next) {
 
 // CRUD Operations
 
-// Create a new tournament
+// Create a new tournament with optional participants and matches
 app.post("/tournaments", async (req, res) => {
   try {
-    const newTournamentData = req.body;
-    // Initialize the participants field as an empty Map if not provided
-    if (!newTournamentData.participants) {
-      newTournamentData.participants = new Map();
+    const { event, participants, matches } = req.body;
+
+    // If participants are provided, convert the array of participants into a Map
+    let participantsMap;
+    if (participants && Array.isArray(participants)) {
+      participantsMap = new Map();
+      participants.forEach((participant) => {
+        participantsMap.set(participant.id, participant);
+      });
     }
 
-    // Initialize the matches field as an empty Map if not provided
-    if (!newTournamentData.matches) {
-      newTournamentData.matches = new Map();
+    // If matches are provided, convert the array of matches into a Map
+    let matchesMap;
+    if (matches && Array.isArray(matches)) {
+      matchesMap = new Map();
+      matches.forEach((match) => {
+        matchesMap.set(match.matchNumber, match);
+      });
     }
 
-    const newTournament = await Tournament.create(newTournamentData);
+    // Create the tournament object with or without participants and matches based on their availability
+    const tournamentData = {
+      event: event,
+      participants: participantsMap || undefined,
+      matches: matchesMap || undefined,
+    };
+
+    const newTournament = await Tournament.create(tournamentData);
     res.status(201).json(newTournament);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to create the tournament", response: `${error}` });
+    res.status(500).json({ error: "Failed to create the tournament" });
   }
 });
 
