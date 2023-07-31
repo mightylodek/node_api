@@ -51,7 +51,7 @@ const tournamentSchema = new mongoose.Schema(
   {
     players: {
       type: Map,
-      of: playerSchema,
+      of: participantSchema,
     },
 
     matches: {
