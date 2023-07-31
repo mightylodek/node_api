@@ -64,7 +64,7 @@ const tournamentSchema = new mongoose.Schema(
     prelimMatches: Number,
     finals: String,
     finalsDesc: String,
-    finalsSeeds: String,
+    finalsSeeds: Number,
   },
   { timestamps: true }
 ); // Add timestamps option here
