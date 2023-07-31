@@ -71,7 +71,9 @@ app.post("/tournaments", async (req, res) => {
     const newTournament = await Tournament.create(newTournamentData);
     res.status(201).json(newTournament);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create the tournament" });
+    res
+      .status(500)
+      .json({ error: "Failed to create the tournament", response: `${error}` });
   }
 });
 
@@ -215,12 +217,10 @@ app.post("/tournaments/:tournamentId/participants", async (req, res) => {
 
     res.status(201).json(newParticipantData);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Failed to create the participant",
-        response: `${error}`,
-      });
+    res.status(500).json({
+      error: "Failed to create the participant",
+      response: `${error}`,
+    });
   }
 });
 
