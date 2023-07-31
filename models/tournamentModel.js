@@ -49,7 +49,7 @@ const matchSchema = mongoose.Schema(
 
 const tournamentSchema = new mongoose.Schema(
   {
-    players: {
+    participants: {
       type: Map,
       of: participantSchema,
     },
