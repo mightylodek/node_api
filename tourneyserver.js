@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const uri =
   "mongodb+srv://apiappuser:ga887fQeFZ3F4z@node-api.ii8gnyv.mongodb.net/node-api?retryWrites=true&w=majority";
 
-const Tournament = require("./tournamentModel");
+const Tournament = require("./models/tournamentModel");
 const port = 30304;
 
 app.use(
