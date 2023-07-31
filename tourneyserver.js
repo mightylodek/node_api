@@ -57,7 +57,17 @@ app.use(function (req, res, next) {
 // Create a new tournament with optional participants and matches
 app.post("/tournaments", async (req, res) => {
   try {
-    const { event, participants, matches } = req.body;
+    const {
+      event,
+      prelims,
+      prelimsDesc,
+      prelimMatches,
+      finals,
+      finalsDesc,
+      finalsSeeds,
+      participants,
+      matches,
+    } = req.body;
 
     // If participants are provided, convert the array of participants into a Map
     let participantsMap;
@@ -80,6 +90,12 @@ app.post("/tournaments", async (req, res) => {
     // Create the tournament object with or without participants and matches based on their availability
     const tournamentData = {
       event: event,
+      prelims: prelims || undefined,
+      prelimsDesc: prelimsDesc || undefined,
+      prelimMatches: prelimMatches || undefined,
+      finals: finals || undefined,
+      finalsDesc: finalsDesc || undefined,
+      finalsSeeds: finalsSeeds || undefined,
       participants: participantsMap || undefined,
       matches: matchesMap || undefined,
     };
