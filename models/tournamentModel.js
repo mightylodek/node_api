@@ -65,6 +65,12 @@ const tournamentSchema = new mongoose.Schema(
     finals: String,
     finalsDesc: String,
     finalsSeeds: Number,
+    eventDate: Date,
+    eventDesc: String,
+    eventLocation: String,
+    eventContactName: String,
+    eventContactPhone: String,
+    eventContactEmail: String,
   },
   { timestamps: true }
 ); // Add timestamps option here
