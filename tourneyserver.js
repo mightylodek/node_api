@@ -118,6 +118,7 @@ app.get("/tournaments/events", async (req, res) => {
     );
 
     const eventInfoArray = tournaments.map((tournament) => ({
+      _id: tournament._id,
       event: tournament.event,
       participantCount: tournament.participants
         ? tournament.participants.size
