@@ -109,6 +109,39 @@ app.post("/tournaments", async (req, res) => {
   }
 });
 
+// Route to get array of event information and count of participants for all events
+app.get("/tournaments/events", async (req, res) => {
+  try {
+    const tournaments = await Tournament.find(
+      {},
+      "event participants prelims prelimsDesc prelimMatches finals finalsDesc finalsSeeds eventDate eventDesc eventLocation eventContactName eventContactPhone eventContactEmail"
+    );
+
+    const eventInfoArray = tournaments.map((tournament) => ({
+      event: tournament.event,
+      participantCount: tournament.participants
+        ? tournament.participants.size
+        : 0,
+      prelims: tournament.prelims,
+      prelimsDesc: tournament.prelimsDesc,
+      prelimMatches: tournament.prelimMatches,
+      finals: tournament.finals,
+      finalsDesc: tournament.finalsDesc,
+      finalsSeeds: tournament.finalsSeeds,
+      eventDate: tournament.eventDate,
+      eventDesc: tournament.eventDesc,
+      eventLocation: tournament.eventLocation,
+      eventContactName: tournament.eventContactName,
+      eventContactPhone: tournament.eventContactPhone,
+      eventContactEmail: tournament.eventContactEmail,
+    }));
+
+    res.json(eventInfoArray);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get event information" });
+  }
+});
+
 // Read all tournaments
 app.get("/tournaments", async (req, res) => {
   try {
