@@ -116,10 +116,11 @@ app.get("/tournaments/events", async (req, res) => {
       {},
       "event participants prelims prelimsDesc prelimMatches finals finalsDesc finalsSeeds eventDate eventDesc eventLocation eventContactName eventContactPhone eventContactEmail"
     );
-
+    /*
     const eventInfoArray = tournaments.map((tournament) => ({
       _id: tournament._id,
       event: tournament.event,
+      participants: tournament.participants,
       participantCount: tournament.participants
         ? tournament.participants.size
         : 0,
@@ -136,8 +137,9 @@ app.get("/tournaments/events", async (req, res) => {
       eventContactPhone: tournament.eventContactPhone,
       eventContactEmail: tournament.eventContactEmail,
     }));
-
-    res.json(eventInfoArray);
+*/
+    //res.json(eventInfoArray);
+    res.json(tournaments);
   } catch (error) {
     res.status(500).json({ error: "Failed to get event information" });
   }
