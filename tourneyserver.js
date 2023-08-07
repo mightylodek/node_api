@@ -316,6 +316,30 @@ app.put(
   }
 );
 
+// Update via PATCH a specific participant for a specific tournament
+app.patch(
+  "/tournaments/:tournamentId/participants/:participantId",
+  async (req, res) => {
+    try {
+      const tournamentId = req.params.tournamentId;
+      const tournament = await Tournament.findById(tournamentId);
+
+      if (!tournament) {
+        return res.status(404).json({ error: "Tournament not found" });
+      }
+
+      const participantId = req.params.participantId;
+      const updatedParticipantData = req.body;
+      tournament.participants.set(participantId, updatedParticipantData);
+      await tournament.save();
+
+      res.json(updatedParticipantData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update the participant" });
+    }
+  }
+);
+
 // Delete a specific participant for a specific tournament
 app.delete(
   "/tournaments/:tournamentId/participants/:participantId",

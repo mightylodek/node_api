@@ -71,6 +71,7 @@ const tournamentSchema = new mongoose.Schema(
     eventContactName: String,
     eventContactPhone: String,
     eventContactEmail: String,
+    matchLocations: [String],
   },
   { timestamps: true }
 ); // Add timestamps option here
