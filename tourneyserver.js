@@ -350,7 +350,7 @@ app.patch(
       // Fetch the updated participant data from the Map within the updated tournament
       const updatedParticipant =
         updatedTournament.participants.get(participantId);
-      res.json(updatedParticipant);
+      res.json(mergedParticipantData);
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
