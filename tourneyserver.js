@@ -331,9 +331,14 @@ app.patch(
       const participantId = req.params.participantId;
       const updatedParticipantData = req.body;
       tournament.participants.set(participantId, updatedParticipantData);
-      await tournament.save();
 
-      res.json(tournament);
+      // Use the resolved value from save() to get the updated tournament instance
+      const updatedTournament = await tournament.save();
+
+      // Fetch the updated participant data from the Map within the updated tournament
+      const updatedParticipant =
+        updatedTournament.participants.get(participantId);
+      res.json(updatedParticipant);
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
