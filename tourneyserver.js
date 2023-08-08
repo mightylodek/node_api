@@ -292,7 +292,7 @@ app.post("/tournaments/:tournamentId/participants", async (req, res) => {
   }
 });
 
-// Update a specific participant for a specific tournament
+// Update a specific participant for a specific tournament commit
 app.put(
   "/tournaments/:tournamentId/participants/:participantId",
   async (req, res) => {
