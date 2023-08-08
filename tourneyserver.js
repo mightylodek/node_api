@@ -292,7 +292,7 @@ app.post("/tournaments/:tournamentId/participants", async (req, res) => {
   }
 });
 
-// Update a specific participant for a specific tournament commit
+// Update a specific participant for a specific tournament
 app.put(
   "/tournaments/:tournamentId/participants/:participantId",
   async (req, res) => {
@@ -309,7 +309,7 @@ app.put(
       tournament.participants.set(participantId, updatedParticipantData);
       await tournament.save();
 
-      res.json(tournament);
+      res.json(updatedParticipantData);
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
@@ -333,7 +333,7 @@ app.patch(
       tournament.participants.set(participantId, updatedParticipantData);
       await tournament.save();
 
-      res.json(updatedParticipantData);
+      res.json(tournament);
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
