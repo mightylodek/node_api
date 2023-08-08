@@ -331,27 +331,10 @@ app.patch(
 
       const participantId = req.params.participantId;
       const updatedParticipantData = req.body;
+      tournament.participants.set(participantId, updatedParticipantData);
+      await tournament.save();
 
-      // Get the existing participant data from the participants Map
-      const existingParticipantData =
-        tournament.participants.get(participantId);
-
-      // Merge the existing participant data with the updated fields
-      const mergedParticipantData = {
-        ...existingParticipantData,
-        ...updatedParticipantData,
-      };
-
-      // Update the participants Map with the merged data
-      tournament.participants.set(participantId, mergedParticipantData);
-
-      // Use the resolved value from save() to get the updated tournament instance
-      const updatedTournament = await tournament.save();
-
-      // Fetch the updated participant data from the Map within the updated tournament
-      const updatedParticipant =
-        updatedTournament.participants.get(participantId);
-      res.json(mergedParticipantData);
+      res.json(tournament.participants.get(participantId)); // Return updated participant data
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
