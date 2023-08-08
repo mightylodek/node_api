@@ -75,7 +75,7 @@ app.post("/tournaments", async (req, res) => {
       participantsMap = new Map();
       participants.forEach((participant) => {
         // Use the MongoDB-generated _id as the key
-        participantsMap.set(participant._id.toString(), participant);
+        participantsMap.set(participant.id, participant);
       });
     }
 
