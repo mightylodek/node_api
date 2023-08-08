@@ -74,7 +74,7 @@ app.post("/tournaments", async (req, res) => {
     if (participants && Array.isArray(participants)) {
       participantsMap = new Map();
       participants.forEach((participant) => {
-        participantsMap.set(participant.id, participant);
+        participantsMap.set(participant._id, participant);
       });
     }
 
