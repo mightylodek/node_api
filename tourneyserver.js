@@ -309,7 +309,7 @@ app.put(
       tournament.participants.set(participantId, updatedParticipantData);
       await tournament.save();
 
-      res.json(updatedParticipantData);
+      res.json(tournament);
     } catch (error) {
       res.status(500).json({ error: "Failed to update the participant" });
     }
