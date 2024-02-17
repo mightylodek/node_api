@@ -40,8 +40,10 @@ app.use(function (req, res, next) {
     'http://127.0.0.1:19006',
     'http://localhost:19006',
   ];
+  var datetime = new Date();
+  console.log(datetime);
   const origin = req.headers.origin;
-  console.log('Origin: ', origin);
+  console.log(datetime, 'Origin: ', origin);
   //if (allowedOrigins.includes(origin)) {
   //     res.setHeader('Access-Control-Allow-Origin', origin);
   //}
