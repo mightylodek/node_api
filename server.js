@@ -1,24 +1,24 @@
 // Import builtin NodeJS modules to instantiate the service
-const https = require("https");
-const fs = require("fs");
+const https = require('https');
+const fs = require('fs');
 
-const express = require("express");
+const express = require('express');
 const app = express();
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const uri =
-  "mongodb+srv://apiappuser:ga887fQeFZ3F4z@node-api.ii8gnyv.mongodb.net/node-api?retryWrites=true&w=majority";
-const Player = require("./models/playerModel.js");
-const Organization = require("./models/organizationModel.js");
-const Match = require("./models/matchModel.js");
-const Team = require("./models/teamModel.js");
-const Event = require("./models/eventModel.js");
-const OrgMember = require("./models/orgMemberModel.js");
-const KingsCupPlayer = require("./models/kingsCupPlayerModel");
-const cors = require("cors");
+  'mongodb+srv://apiappuser:ga887fQeFZ3F4z@node-api.ii8gnyv.mongodb.net/node-api?retryWrites=true&w=majority';
+const Player = require('./models/playerModel.js');
+const Organization = require('./models/organizationModel.js');
+const Match = require('./models/matchModel.js');
+const Team = require('./models/teamModel.js');
+const Event = require('./models/eventModel.js');
+const OrgMember = require('./models/orgMemberModel.js');
+const KingsCupPlayer = require('./models/kingsCupPlayerModel');
+const cors = require('cors');
 
 app.use(
   cors({
-    origin: "*",
+    origin: '*',
   })
 );
 
@@ -35,27 +35,27 @@ app.use(express.json());
 
 app.use(function (req, res, next) {
   const allowedOrigins = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:19006",
-    "http://localhost:19006",
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    'http://127.0.0.1:19006',
+    'http://localhost:19006',
   ];
   const origin = req.headers.origin;
-  console.log("Origin: ", origin);
+  console.log('Origin: ', origin);
   //if (allowedOrigins.includes(origin)) {
   //     res.setHeader('Access-Control-Allow-Origin', origin);
   //}
 
   //res.setHeader("Access-Control-Allow-Origin", "http://localhost:19006");
   res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
   );
   res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
+    'Access-Control-Allow-Headers',
+    'X-Requested-With,content-type'
   );
-  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
 
@@ -63,25 +63,25 @@ app.use(function (req, res, next) {
 mongoose
   .connect(uri)
   .then(() => {
-    console.log("Connected to mongo db");
+    console.log('Connected to mongo db');
   })
   .catch((error) => {
-    console.log("Error: ", error);
+    console.log('Error: ', error);
   });
 
 //routes
 
-app.get("/", (req, res) => {
-  res.send("Hello NODE API");
+app.get('/', (req, res) => {
+  res.send('Hello NODE API');
 });
 
-app.get("/blog", (req, res) => {
-  res.send("Hello blog, how you doing");
+app.get('/blog', (req, res) => {
+  res.send('Hello blog, how you doing');
 });
 
 //Organization
 // Create New
-app.post("/orgs", async (req, res) => {
+app.post('/orgs', async (req, res) => {
   try {
     const organization = await Organization.create(req.body);
     res.status(200).json(organization);
@@ -92,7 +92,7 @@ app.post("/orgs", async (req, res) => {
 });
 
 //List all orgs
-app.get("/orgs", async (req, res) => {
+app.get('/orgs', async (req, res) => {
   try {
     const Organizations = await Organization.find({});
     res.status(200).json(Organizations);
@@ -102,12 +102,12 @@ app.get("/orgs", async (req, res) => {
 });
 
 //List all orgs' id and name only
-app.get("/orgs/ids", async (req, res) => {
+app.get('/orgs/ids', async (req, res) => {
   try {
     const Organizations = await Organization.find({}, [
-      "name",
-      "description",
-      "_id",
+      'name',
+      'description',
+      '_id',
     ]);
     res.status(200).json(Organizations);
   } catch (error) {
@@ -116,7 +116,7 @@ app.get("/orgs/ids", async (req, res) => {
 });
 
 //List one org
-app.get("/orgs/:id", async (req, res) => {
+app.get('/orgs/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const organizations = await Organization.findById(id);
@@ -127,7 +127,7 @@ app.get("/orgs/:id", async (req, res) => {
 });
 
 //Update organization PUT
-app.put("/orgs/:id", async (req, res) => {
+app.put('/orgs/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const organization = await Organization.findByIdAndUpdate(id, req.body);
@@ -143,7 +143,7 @@ app.put("/orgs/:id", async (req, res) => {
 });
 
 //Update organization PATCH
-app.patch("/orgs/:id", async (req, res) => {
+app.patch('/orgs/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const organization = await Organization.findByIdAndUpdate(id, req.body);
@@ -159,7 +159,7 @@ app.patch("/orgs/:id", async (req, res) => {
 });
 
 //Delete one org
-app.delete("/orgs/:id", async (req, res) => {
+app.delete('/orgs/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const organization = await Organization.findByIdAndDelete(id);
@@ -178,7 +178,7 @@ app.delete("/orgs/:id", async (req, res) => {
  * Match Section
  */
 // Create New
-app.post("/matches", async (req, res) => {
+app.post('/matches', async (req, res) => {
   try {
     const match = await Match.create(req.body);
     res.status(200).json(match);
@@ -189,7 +189,7 @@ app.post("/matches", async (req, res) => {
 });
 
 //List all match
-app.get("/matches", async (req, res) => {
+app.get('/matches', async (req, res) => {
   try {
     const Matches = await Match.find({});
     res.status(200).json(Matches);
@@ -199,7 +199,7 @@ app.get("/matches", async (req, res) => {
 });
 
 //List one match
-app.get("/matches/:id", async (req, res) => {
+app.get('/matches/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const match = await Match.findById(id);
@@ -210,7 +210,7 @@ app.get("/matches/:id", async (req, res) => {
 });
 
 //Update match PUT
-app.put("/matches/:id", async (req, res) => {
+app.put('/matches/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const match = await Match.findByIdAndUpdate(id, req.body);
@@ -226,7 +226,7 @@ app.put("/matches/:id", async (req, res) => {
 });
 
 //Update match PATCH
-app.patch("/matches/:id", async (req, res) => {
+app.patch('/matches/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const match = await Match.findByIdAndUpdate(id, req.body);
@@ -242,7 +242,7 @@ app.patch("/matches/:id", async (req, res) => {
 });
 
 //Delete one match
-app.delete("/matches/:id", async (req, res) => {
+app.delete('/matches/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const match = await Match.findByIdAndDelete(id);
@@ -259,7 +259,7 @@ app.delete("/matches/:id", async (req, res) => {
 
 //Delete all matches that meet the filter criteria
 //TODO
-app.delete("/matches/", async (req, res) => {
+app.delete('/matches/', async (req, res) => {
   try {
     const match = await Match.deleteMany(req.body).then((result) => {
       return result;
@@ -283,7 +283,7 @@ app.delete("/matches/", async (req, res) => {
  * OrgMember Section
  */
 // Create New OrgMember
-app.post("/orgmembers", async (req, res) => {
+app.post('/orgmembers', async (req, res) => {
   try {
     const orgMember = await OrgMember.create(req.body);
     res.status(200).json(orgMember);
@@ -294,7 +294,7 @@ app.post("/orgmembers", async (req, res) => {
 });
 
 //List all OrgMember
-app.get("/orgmembers", async (req, res) => {
+app.get('/orgmembers', async (req, res) => {
   try {
     const orgMembers = await OrgMember.find({});
     res.status(200).json(orgMembers);
@@ -304,7 +304,7 @@ app.get("/orgmembers", async (req, res) => {
 });
 
 //List one OrgMember
-app.get("/orgmembers/:id", async (req, res) => {
+app.get('/orgmembers/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const orgMember = await OrgMember.findById(id);
@@ -315,7 +315,7 @@ app.get("/orgmembers/:id", async (req, res) => {
 });
 
 //Update OrgMember PUT
-app.put("/orgmembers/:id", async (req, res) => {
+app.put('/orgmembers/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const orgMember = await OrgMember.findByIdAndUpdate(id, req.body);
@@ -331,7 +331,7 @@ app.put("/orgmembers/:id", async (req, res) => {
 });
 
 //Update OrgMember PATCH
-app.patch("/orgmembers/:id", async (req, res) => {
+app.patch('/orgmembers/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const orgMember = await OrgMember.findByIdAndUpdate(id, req.body);
@@ -347,7 +347,7 @@ app.patch("/orgmembers/:id", async (req, res) => {
 });
 
 //Delete one OrgMember
-app.delete("/orgmembers/:id", async (req, res) => {
+app.delete('/orgmembers/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const orgMember = await OrgMember.findByIdAndDelete(id);
@@ -370,7 +370,7 @@ app.delete("/orgmembers/:id", async (req, res) => {
  * Team Section
  */
 // Create New
-app.post("/teams", async (req, res) => {
+app.post('/teams', async (req, res) => {
   try {
     const team = await Team.create(req.body);
     res.status(200).json(team);
@@ -381,7 +381,7 @@ app.post("/teams", async (req, res) => {
 });
 
 //List all Team
-app.get("/teams", async (req, res) => {
+app.get('/teams', async (req, res) => {
   try {
     const teams = await Team.find({});
     res.status(200).json(teams);
@@ -391,7 +391,7 @@ app.get("/teams", async (req, res) => {
 });
 
 //List one Team
-app.get("/teams/:id", async (req, res) => {
+app.get('/teams/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const team = await Team.findById(id);
@@ -402,7 +402,7 @@ app.get("/teams/:id", async (req, res) => {
 });
 
 //Update Team PUT
-app.put("/teams/:id", async (req, res) => {
+app.put('/teams/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const team = await Team.findByIdAndUpdate(id, req.body);
@@ -418,7 +418,7 @@ app.put("/teams/:id", async (req, res) => {
 });
 
 //Update Team PATCH
-app.patch("/teams/:id", async (req, res) => {
+app.patch('/teams/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const team = await Team.findByIdAndUpdate(id, req.body);
@@ -434,7 +434,7 @@ app.patch("/teams/:id", async (req, res) => {
 });
 
 //Delete one Team
-app.delete("/teams/:id", async (req, res) => {
+app.delete('/teams/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const team = await Team.findByIdAndDelete(id);
@@ -457,7 +457,7 @@ app.delete("/teams/:id", async (req, res) => {
  * Event Section
  */
 // Create New Event
-app.post("/events", async (req, res) => {
+app.post('/events', async (req, res) => {
   try {
     const event = await Event.create(req.body);
     res.status(200).json(event);
@@ -468,7 +468,7 @@ app.post("/events", async (req, res) => {
 });
 
 //List all Events
-app.get("/events", async (req, res) => {
+app.get('/events', async (req, res) => {
   try {
     const events = await Event.find({});
     res.status(200).json(events);
@@ -478,7 +478,7 @@ app.get("/events", async (req, res) => {
 });
 
 //List one Event
-app.get("/events/:id", async (req, res) => {
+app.get('/events/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findById(id);
@@ -489,7 +489,7 @@ app.get("/events/:id", async (req, res) => {
 });
 
 //Update Event PUT
-app.put("/events/:id", async (req, res) => {
+app.put('/events/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findByIdAndUpdate(id, req.body);
@@ -505,7 +505,7 @@ app.put("/events/:id", async (req, res) => {
 });
 
 //Update Event PATCH
-app.patch("/events/:id", async (req, res) => {
+app.patch('/events/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findByIdAndUpdate(id, req.body);
@@ -521,7 +521,7 @@ app.patch("/events/:id", async (req, res) => {
 });
 
 //Delete one Event
-app.delete("/events/:id", async (req, res) => {
+app.delete('/events/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const event = await Event.findByIdAndDelete(id);
@@ -542,7 +542,7 @@ app.delete("/events/:id", async (req, res) => {
 
 //Kings Cup Player
 // Create New
-app.post("/kcplayer", async (req, res) => {
+app.post('/kcplayer', async (req, res) => {
   try {
     const kingsCupPlayer = await KingsCupPlayer.create(req.body);
     res.status(200).json(kingsCupPlayer);
@@ -553,7 +553,7 @@ app.post("/kcplayer", async (req, res) => {
 });
 
 //List all
-app.get("/kcplayer", async (req, res) => {
+app.get('/kcplayer', async (req, res) => {
   try {
     const KingsCupPlayers = await KingsCupPlayer.find({});
     res.status(200).json(KingsCupPlayers);
@@ -563,7 +563,7 @@ app.get("/kcplayer", async (req, res) => {
 });
 
 //List one player
-app.get("/kcplayer/:id", async (req, res) => {
+app.get('/kcplayer/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const KingsCupPlayers = await KingsCupPlayer.findOne({ id: id });
@@ -574,7 +574,7 @@ app.get("/kcplayer/:id", async (req, res) => {
 });
 
 // PUT route to update player's wins, losses, pdiff, seed, and name by id
-app.put("/kcplayer/:id", async (req, res) => {
+app.put('/kcplayer/:id', async (req, res) => {
   const { playerId } = req.params;
   const { wins, losses, pdiff, seed, name } = req.body;
 
@@ -582,7 +582,7 @@ app.put("/kcplayer/:id", async (req, res) => {
     const player = await KingsCupPlayer.findOne({ id: playerId });
 
     if (!player) {
-      return res.status(404).json({ error: "Player not found" });
+      return res.status(404).json({ error: 'Player not found' });
     }
 
     if (wins !== undefined) {
@@ -606,12 +606,12 @@ app.put("/kcplayer/:id", async (req, res) => {
     return res.json(updatedPlayer);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "An error occurred" });
+    return res.status(500).json({ error: 'An error occurred' });
   }
 });
 
 //Update Kings Cup Player PATCH
-app.patch("/kcplayer/:id", async (req, res) => {
+app.patch('/kcplayer/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const kingsCupPlayer = await KingsCupPlayer.findOneAndUpdate(id, req.body);
@@ -627,7 +627,7 @@ app.patch("/kcplayer/:id", async (req, res) => {
 });
 
 //Delete one Kings Cup player
-app.delete("/kcplayer/:id", async (req, res) => {
+app.delete('/kcplayer/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const kingsCupPlayer = await KingsCupPlayer.findByIdAndDelete(id);
@@ -643,25 +643,25 @@ app.delete("/kcplayer/:id", async (req, res) => {
 });
 
 // GET route to find the maximum value of the id field
-app.get("/kcplayer/max-id", async (req, res) => {
+app.get('/kcplayer/max-id', async (req, res) => {
   try {
     const maxIdPlayer = await KingsCupPlayer.findOne({}, { id: 1 }).sort({
       id: -1,
     });
 
     if (!maxIdPlayer) {
-      return res.json({ id: "p00" });
+      return res.json({ id: 'p00' });
     }
 
     return res.json(maxIdPlayer);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "An error occurred" });
+    return res.status(500).json({ error: 'An error occurred' });
   }
 });
 
 //Player
-app.post("/player", async (req, res) => {
+app.post('/player', async (req, res) => {
   try {
     const player = await Player.create(req.body);
     res.status(200).json(player);
@@ -671,20 +671,20 @@ app.post("/player", async (req, res) => {
   }
 });
 
+app.listen(30303, () => {
+  console.log('Node API app is running on port 30303 ');
+});
+
 https
   .createServer(
     // Provide the private and public key to the server by reading each
     // file's content with the readFileSync() method.
     {
-      key: fs.readFileSync("../../tourneyrun.key"),
-      cert: fs.readFileSync("../../tourneyrun.crt"),
+      key: fs.readFileSync('../../tourneyrun.key'),
+      cert: fs.readFileSync('../../tourneyrun.crt'),
     },
     app
   )
   .listen(30443, () => {
-    console.log("https serever is runing at port 30443");
+    console.log('https serever is runing at port 30443');
   });
-
-app.listen(30303, () => {
-  console.log("Node API app is running on port 30303 ");
-});
